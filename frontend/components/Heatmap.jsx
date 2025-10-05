@@ -2,7 +2,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import './HeatMap.css';
 
-export default function HeatMap() {
+export default function HeatMap({ mapChoice }) {
   const mapRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const [intensity, setIntensity] = useState(0.5);

@@ -1,0 +1,66 @@
+/* --- Container layout --- */
+
+.map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;           /* Center horizontally */
+  justify-content: center;
+  min-height: 100vh;             /* Center vertically in viewport */
+  background-color: #9FBBCC;     /* Subtle background */
+  padding: 2rem;                 /* White space around sides */
+  box-sizing: border-box;
+}
+
+/* --- Button bar --- */
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;                    /* Same width as map (see below) */
+  max-width: 1000px;             /* Limit total size */
+  margin-bottom: 1rem;           /* Space above map */
+  background: #9FBBCC;
+  border-radius: 9px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+}
+
+/* --- Individual buttons --- */
+.buttonContainer button {
+  flex: 1;
+  margin: 0 0.5rem;
+  padding: 0.75rem 0;
+  background: #e0e0e0;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+
+.buttonContainer button:hover {
+  background: #BDE4A7;
+  transform: translateY(-2px);
+}
+
+/* --- Active button style (optional) --- */
+.buttonContainer button:focus {
+  outline: none;
+  background: #B3D2B2;
+  color: black;
+}
+
+/* --- Heatmap area --- */
+.heatmap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 80%;                    /* Same width as map (see below) */
+  max-width: 1000px;             /* Limit total size */
+  margin-bottom: 1rem;           /* Space above map */
+  background: #9FBBCC;
+  border-radius: 0px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem;
+}
