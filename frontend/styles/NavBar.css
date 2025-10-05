@@ -1,0 +1,33 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px; 
+  background-color: #333;
+  color: #fff;
+  height: 3em;
+  max-width: 100%; /* Ensure navbar fits screen */
+  box-sizing: border-box;
+}
+
+.navbar .logo {
+  font-weight: bold;
+  font-size: 125%;
+  vertical-align: auto;
+}
+
+.navbar .nav-links {
+  display: flex;
+  gap: 15px;
+  font-size: 110%;
+}
+
+.navbar .nav-links a,
+.navbar .logo a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.navbar .nav-links a:hover {
+  text-decoration: underline;
+}
