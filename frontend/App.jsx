@@ -4,6 +4,7 @@ import Home from './pages/Home.jsx'
 import Map from './pages/Map.jsx'
 import About from './pages/About.jsx'
 import { Routes, Route } from 'react-router-dom'
+import './styles/index.css'
 
 function App() {
   return (

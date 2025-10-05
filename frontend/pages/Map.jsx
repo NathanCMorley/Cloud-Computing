@@ -1,19 +1,23 @@
-import React from 'react';
-import HeatMap from '../components/Heatmap.jsx'
+// Home.jsx
+import React, { useState } from 'react';
+import HeatMap from '../components/Heatmap.jsx';
 import '../styles/Map.css';
 
 export default function Home() {
-    var mapChoice;
+  const [mapChoice, setMapChoice] = useState("NO2");
+
   return (
     <div className="map-container">
-        <div className="buttonContainer">
-            <button className="N02" onClick={mapchoice = "NO2"}></button>
-            <button className="Formaldehyde" onClick={mapchoice = "Formaldehyde"}></button>
-            <button className="Aerosol Index" onClick={mapchoice = "Aerosol_Index"}></button>
-            <button className='Particulate Matter' onClick={mapchoice = "Particulate_Matter"}></button>
-        </div>
-        
-      <HeatMap mapChoice={mapChoice}/>
+      <div className="buttonContainer">
+        <button className="NO2" onClick={() => setMapChoice("NO2")}>NO₂</button>
+        <button className="Formaldehyde" onClick={() => setMapChoice("Formaldehyde")}>Formaldehyde</button>
+        <button className="AerosolIndex" onClick={() => setMapChoice("Aerosol_Index")}>Aerosol Index</button>
+        <button className="ParticulateMatter" onClick={() => setMapChoice("Particulate_Matter")}>Particulate Matter</button>
+        <button className="ParticulateMatter" onClick={() => setMapChoice("Ozone")}>Ozone</button>
+
+      </div>
+
+      <HeatMap mapChoice={mapChoice} />
     </div>
   );
 }
