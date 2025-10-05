@@ -5,7 +5,7 @@
   padding: 5px 15px; 
   background-color: #333;
   color: #fff;
-  height: 3em;
+  height: 4em;
   max-width: 100%; /* Ensure navbar fits screen */
   box-sizing: border-box;
 }
@@ -18,8 +18,8 @@
 
 .navbar .nav-links {
   display: flex;
-  gap: 15px;
-  font-size: 110%;
+  gap: 2em;
+  font-size: 125%;
 }
 
 .navbar .nav-links a,

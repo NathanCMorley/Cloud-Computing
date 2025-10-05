@@ -7,8 +7,8 @@ export default function Home() {
   const [mapChoice, setMapChoice] = useState("NO2");
 
   return (
-    <div className="map-container">
-      <div className="buttonContainer">
+    <div className="page-content">
+      <div className="button-container">
         <button className="NO2" onClick={() => setMapChoice("NO2")}>NO₂</button>
         <button className="Formaldehyde" onClick={() => setMapChoice("Formaldehyde")}>Formaldehyde</button>
         <button className="AerosolIndex" onClick={() => setMapChoice("Aerosol_Index")}>Aerosol Index</button>
@@ -16,8 +16,9 @@ export default function Home() {
         <button className="ParticulateMatter" onClick={() => setMapChoice("Ozone")}>Ozone</button>
 
       </div>
-
-      <HeatMap mapChoice={mapChoice} />
+      <div className='map-container'>
+        <HeatMap mapChoice={mapChoice} />
+      </div>
     </div>
   );
 }
