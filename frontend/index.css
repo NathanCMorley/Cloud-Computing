@@ -1,0 +1,22 @@
+.nav{
+  justify-content: center;
+  flex-wrap: nowrap;
+  display:flex;
+  margin: auto;
+  height: 10%;
+  width: 80%;
+  margin-bottom: 10px;
+
+}
+.navitem{
+  position: relative;
+  display:flex;
+  justify-content: right;
+  
+
+}
+.logo{
+  justify-content: left;
+  position: fixed;
+  left: 0px;
+}
