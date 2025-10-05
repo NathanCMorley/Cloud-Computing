@@ -7,8 +7,8 @@ import initSqlJs from 'sql.js';
 const tableMap = {  
   "NO2": "NO2_data",
   "Formaldehyde": "formaldehyde_data",
-  "Ozone": "ozone_data",
-  "Aerosol_Index": "aerosol_index_data",
+  "Ozone": "Ozone_data",
+  "Aerosol_Index": "Aerosol_index_data",
   "Particulate_Matter": "particulate_matter_data",
 };
 
