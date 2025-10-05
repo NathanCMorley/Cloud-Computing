@@ -15,7 +15,9 @@
 .map-container{
   width: 80%;
 }
-
+.heatmap-container{
+    border-radius: 9px;
+}
 
 /* --- Button bar --- */
 .button-container {
