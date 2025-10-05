@@ -1,4 +1,3 @@
-// Home.jsx
 import React from 'react';
 import HeatMap from '../components/Heatmap.jsx'
 import '../styles/Map.css';
