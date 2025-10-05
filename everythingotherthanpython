@@ -1,0 +1,255 @@
+    # Create complete HTML with embedded data AND world map
+    html_content = f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NO2 Column Density Map</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/plotly.js/2.26.0/plotly.min.js"></script>
+    <style>
+        * {{ margin: 0; padding: 0; box-sizing: border-box; }}
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }}
+        .container {{
+            max-width: 1600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }}
+        .header {{
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }}
+        .header h1 {{ font-size: 2.5em; margin-bottom: 10px; font-weight: 700; }}
+        .header p {{ font-size: 1.1em; opacity: 0.9; }}
+        .controls {{
+            padding: 25px 30px;
+            background: #f8f9fa;
+            border-bottom: 2px solid #e9ecef;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+        }}
+        .control-group {{ display: flex; flex-direction: column; gap: 8px; }}
+        .control-group label {{ font-weight: 600; color: #495057; font-size: 0.9em; }}
+        .control-group select {{
+            padding: 10px 15px;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s;
+        }}
+        .map-container {{ padding: 30px; }}
+        #map {{ width: 100%; height: 700px; border-radius: 12px; }}
+        .stats {{
+            padding: 25px 30px;
+            background: #f8f9fa;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }}
+        .stat-card {{
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            text-align: center;
+        }}
+        .stat-card h3 {{
+            color: #6c757d;
+            font-size: 0.9em;
+            font-weight: 600;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }}
+        .stat-card p {{ color: #1e3c72; font-size: 1.8em; font-weight: 700; }}
+        .loading {{
+            text-align: center;
+            padding: 100px 20px;
+            color: #6c757d;
+            font-size: 1.2em;
+        }}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🌍 NO₂ Column Density Map</h1>
+            <p>Global visualization from OMI satellite data with world map overlay - {len(data_list_web):,} data points</p>
+        </div>
+        <div class="controls">
+            <div class="control-group">
+                <label for="colorscale">Color Scale</label>
+                <select id="colorscale" onchange="updateMap()">
+                    <option value="RdYlBu" selected>Red-Yellow-Blue (Reversed)</option>
+                    <option value="Viridis">Viridis</option>
+                    <option value="Plasma">Plasma</option>
+                    <option value="Jet">Jet</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="mapOpacity">Data Opacity</label>
+                <select id="mapOpacity" onchange="updateMap()">
+                    <option value="0.7" selected>70%</option>
+                    <option value="0.5">50%</option>
+                    <option value="0.8">80%</option>
+                    <option value="1.0">100%</option>
+                </select>
+            </div>
+        </div>
+        <div class="map-container">
+            <div id="map"><div class="loading">Loading map...</div></div>
+        </div>
+        <div class="stats">
+            <div class="stat-card"><h3>Data Points</h3><p id="statPoints">-</p></div>
+            <div class="stat-card"><h3>Min Value</h3><p id="statMin">-</p></div>
+            <div class="stat-card"><h3>Max Value</h3><p id="statMax">-</p></div>
+            <div class="stat-card"><h3>Mean Value</h3><p id="statMean">-</p></div>
+        </div>
+    </div>
+    <script>
+        console.log('Starting data load...');
+        const currentData = {data_json};
+        console.log('Data loaded:', currentData.length, 'points');
+        
+        function updateMap() {{
+            console.log('Starting map rendering...');
+            const lats = currentData.map(d => d[0]);
+            const lons = currentData.map(d => d[1]);
+            const values = currentData.map(d => d[2]);
+            
+            console.log('Data ranges - Lat:', Math.min(...lats), 'to', Math.max(...lats));
+            console.log('Data ranges - Lon:', Math.min(...lons), 'to', Math.max(...lons));
+            
+            const uniqueLats = [...new Set(lats)].sort((a, b) => a - b);
+            const uniqueLons = [...new Set(lons)].sort((a, b) => a - b);
+            
+            console.log('Grid size:', uniqueLats.length, 'x', uniqueLons.length);
+            
+            const z = Array(uniqueLats.length).fill().map(() => Array(uniqueLons.length).fill(null));
+            
+            currentData.forEach(([lat, lon, val]) => {{
+                const latIdx = uniqueLats.findIndex(l => Math.abs(l - lat) < 0.01);
+                const lonIdx = uniqueLons.findIndex(l => Math.abs(l - lon) < 0.01);
+                if (latIdx !== -1 && lonIdx !== -1) z[latIdx][lonIdx] = val;
+            }});
+            
+            const colorscale = document.getElementById('colorscale').value;
+            const opacity = parseFloat(document.getElementById('mapOpacity').value);
+            
+            let finalColorscale = colorscale === 'RdYlBu' 
+                ? [[0, 'rgb(49,54,149)'], [0.25, 'rgb(69,117,180)'], [0.5, 'rgb(254,224,144)'], 
+                   [0.75, 'rgb(244,109,67)'], [1, 'rgb(215,48,39)']]
+                : colorscale;
+            
+            const dataTrace = {{
+                type: 'heatmap',
+                x: uniqueLons,
+                y: uniqueLats,
+                z: z,
+                colorscale: finalColorscale,
+                opacity: opacity,
+                colorbar: {{
+                    title: {{ text: 'NO₂<br>(molec/cm²)', side: 'right' }},
+                    thickness: 20,
+                    len: 0.7
+                }},
+                hovertemplate: 'Lat: %{{y:.2f}}°<br>Lon: %{{x:.2f}}°<br>Value: %{{z:.2e}}<extra></extra>',
+                zsmooth: false
+            }};
+            
+            const layout = {{
+                title: {{ text: 'ColumnAmountNO2 with World Map', font: {{ size: 20 }} }},
+                geo: {{
+                    scope: 'world',
+                    showland: true,
+                    landcolor: 'rgb(243, 243, 243)',
+                    coastlinecolor: 'rgb(204, 204, 204)',
+                    showlakes: true,
+                    lakecolor: 'rgb(230, 245, 255)',
+                    showcountries: true,
+                    countrycolor: 'rgb(204, 204, 204)',
+                    projection: {{ type: 'equirectangular' }},
+                    lonaxis: {{ range: [-180, 180] }},
+                    lataxis: {{ range: [-90, 90] }}
+                }},
+                xaxis: {{ 
+                    title: 'Longitude',
+                    showgrid: false,
+                    range: [-180, 180],
+                    zeroline: false
+                }},
+                yaxis: {{ 
+                    title: 'Latitude',
+                    showgrid: false,
+                    range: [-90, 90],
+                    zeroline: false
+                }},
+                plot_bgcolor: 'rgba(0,0,0,0)',
+                paper_bgcolor: 'white',
+                margin: {{ t: 60, b: 60, l: 80, r: 120 }},
+                height: 700
+            }};
+            
+            const config = {{
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false,
+                toImageButtonOptions: {{ format: 'png', filename: 'NO2_map', height: 1000, width: 1600, scale: 2 }}
+            }};
+            
+            console.log('Rendering plot...');
+            Plotly.newPlot('map', [dataTrace], layout, config).then(() => {{
+                console.log('Plot rendered successfully!');
+            }}).catch(err => {{
+                console.error('Error rendering plot:', err);
+            }});
+            
+            const validValues = values.filter(v => v !== null && !isNaN(v));
+            document.getElementById('statPoints').textContent = validValues.length.toLocaleString();
+            document.getElementById('statMin').textContent = Math.min(...validValues).toExponential(2);
+            document.getElementById('statMax').textContent = Math.max(...validValues).toExponential(2);
+            document.getElementById('statMean').textContent = (validValues.reduce((a,b) => a+b, 0) / validValues.length).toExponential(2);
+        }}
+        
+        window.addEventListener('load', () => {{
+            console.log('Page loaded, starting map render...');
+            setTimeout(updateMap, 100);
+        }});
+    </script>
+</body>
+</html>'''
+    
+    # Save the file
+    with open('no2_map_interactive.html', 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    
+    print(f"✓ Saved interactive map with world overlay to: no2_map_interactive.html")
+    print(f"✓ Data points in web version: {len(data_list_web):,}")
+    print(f"✓ Total data points available: {len(data_list):,}")
+    print(f"✓ File size: {len(html_content) / 1024 / 1024:.2f} MB")
+    print("\n🌍 Open 'no2_map_interactive.html' in your browser to view!")
+    print("   Features:")
+    print("   - World map with coastlines, countries, and lakes underneath data")
+    print("   - Adjustable data opacity to see map details")
+    print("   - Multiple color scales")
+    print("   - Interactive zoom and pan")
+    print("   (Check browser console with F12 if map doesn't appear)")
+    
+    # Optionally also plot global mean
+    # plot_global_mean(ds, variable_name, time_dim="Line")
+
+# Print data variables summary
+print("\n" + "="*50)
+print("Data Variables Summary:")
+print("="*50)
+print(ds.data_vars)
