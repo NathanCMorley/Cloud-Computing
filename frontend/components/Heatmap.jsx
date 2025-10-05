@@ -111,11 +111,9 @@ function initMap() {
           0.3: 'rgba(0, 150, 255, 0.7)',  // Bright blue
           0.4: 'rgba(0, 200, 200, 0.75)', // Cyan
           0.5: 'rgba(0, 255, 100, 0.8)',  // Lime
-          0.6: 'rgba(100, 255, 0, 0.85)', // Yellow-green
-          0.7: 'rgba(200, 255, 0, 0.9)',  // Yellow
-          0.8: 'rgba(255, 200, 0, 0.9)',  // Orange-yellow
-          0.9: 'rgba(255, 100, 0, 0.95)', // Orange
-          1.0: 'rgba(255, 0, 0, 1)'       // Red
+          0.6: 'rgba(200, 255, 0, 0.9)',  // Yellow
+          0.8: 'rgba(255, 100, 0, 0.95)', // Orange
+          0.9: 'rgba(255, 0, 0, 1)'       // Red
         }
       }).addTo(newMap);
 

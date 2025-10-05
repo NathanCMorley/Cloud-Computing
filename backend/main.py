@@ -7,6 +7,8 @@ import json
 from matplotlib import rcParams
 import sqlite3
 
+
+
 rcParams["figure.dpi"] = 80  # Reduce figure resolution to keep file size low
 
 # Authenticate
@@ -17,13 +19,7 @@ if not auth.authenticated:
 
 print("earthaccess version:", earthaccess.__version__)
 
-# Search for TEMPO NO₂ Level-3 product
-results = earthaccess.search_data(
-    short_name="TEMPO_NO2_L3",
-    version="V03",
-    temporal=("2025-09-1 12:00", "2025-09-14 12:00"),
-    count=14,
-)
+
 
 print(f"Number of granules found: {len(results)}")
 
