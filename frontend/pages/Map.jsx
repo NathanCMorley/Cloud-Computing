@@ -9,11 +9,10 @@ export default function Home() {
   return (
     <div className="page-content">
       <div className="button-container">
-        <button className="NO2" onClick={() => setMapChoice("NO2")}>NO₂</button>
+        <button className="NO2" onClick={() => setMapChoice("NO2")}>Nitrogen Dioxide</button>
         <button className="Formaldehyde" onClick={() => setMapChoice("Formaldehyde")}>Formaldehyde</button>
         <button className="AerosolIndex" onClick={() => setMapChoice("Aerosol_Index")}>Aerosol Index</button>
-        <button className="ParticulateMatter" onClick={() => setMapChoice("Particulate_Matter")}>Particulate Matter</button>
-        <button className="ParticulateMatter" onClick={() => setMapChoice("Ozone")}>Ozone</button>
+        <button className="Ozone" onClick={() => setMapChoice("Ozone")}>Ozone</button>
 
       </div>
       <div className='map-container'>
