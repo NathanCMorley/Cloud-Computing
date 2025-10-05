@@ -11,14 +11,14 @@ const fetchNO2Data = async () => {
   });
   
   // Fetch the database file
-  const response = await fetch('/tempo_no2.db');
+  const response = await fetch('/data.db');
   const buffer = await response.arrayBuffer();
   
   // Load the database
   const db = new SQL.Database(new Uint8Array(buffer));
   
   // Query the data
-  const result = db.exec('SELECT latitude, longitude, value FROM no2_data');
+  const result = db.exec('SELECT latitude, longitude, value FROM fromaldehyde_data');
   
   // Close the database
   db.close();
