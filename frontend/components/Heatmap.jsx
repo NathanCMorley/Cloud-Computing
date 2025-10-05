@@ -57,8 +57,6 @@ export default function HeatMap({ mapChoice }) {
           attribution: '© OpenStreetMap contributors'
         }).addTo(newMap);
 
-        
-
         // Force map to recognize its size
         setTimeout(() => {
           newMap.invalidateSize();
@@ -157,7 +155,7 @@ export default function HeatMap({ mapChoice }) {
           <span className="intensity-value">{intensity.toFixed(1)}</span>
         </div>
       </div>
-      <div ref={mapRef} className="map-container" />
+      <div ref={mapRef} className="page-content" />
     </div>
   );
 }

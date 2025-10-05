@@ -3,7 +3,11 @@ import React from 'react';
 export default function Home() {
   return (
     <>
-      Home
+      <div className='page-content'>
+        <h1>
+          WELOME TO JANDO
+        </h1>
+      </div>
     </>
   );
 }

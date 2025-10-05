@@ -1,6 +1,6 @@
 /* --- Container layout --- */
 
-.map-container {
+.page-content {
   display: flex;
   flex-direction: column;
   align-items: center;           /* Center horizontally */
@@ -11,8 +11,14 @@
   box-sizing: border-box;
 }
 
+/* --- Heatmap container--- */
+.map-container{
+  width: 80%;
+}
+
+
 /* --- Button bar --- */
-.buttonContainer {
+.button-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -23,7 +29,7 @@
 }
 
 /* --- Individual buttons --- */
-.buttonContainer button {
+.button-container button {
   flex: 1;
   margin: 0 0.5rem;
   padding: 1rem 0;
@@ -36,13 +42,13 @@
   transition: background 0.2s ease, transform 0.1s ease;
 }
 
-.buttonContainer button:hover {
+.button-container button:hover {
   background: #BDE4A7;
   transform: translateY(-2px);
 }
 
 /* --- Active button style (optional) --- */
-.buttonContainer button:focus {
+.button-container button:focus {
   outline: none;
   background: #B3D2B2;
   color: black;
