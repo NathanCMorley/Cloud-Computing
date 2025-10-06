@@ -33,10 +33,10 @@ const fetchData = async (mapChoice) => {
     const db = new SQL.Database(new Uint8Array(buffer));
     
     // Get the table name based on mapChoice
-    const tableName = tableMap[mapChoice] || tableMap["NO2"];
+    const tableName = tableMap[mapChoice] || tableMap["NO2_data"];
     
     // Query the data - assumes columns are: latitude, longitude, value
-    const result = db.exec(`SELECT latitude, longitude, value FROM ${tableName}`);
+    const result = db.exec(`SELECT latitude, longitude, value FROM ${tableMap[mapChoice]}`);
     
     // Close the database
     db.close();
